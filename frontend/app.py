@@ -5,7 +5,7 @@ import requests
 
 st.set_page_config(page_title="Cardio Risk Predoctor", page_icon="🫀")
 
-API_URL = "https://cardio-risk-prediction-1.onrender.com/predict"
+API_URL = "https://cardio-risk-prediction-1.onrender.com/"
 
 st.title("Cardio Disease Prediction")
 st.write("Enter the details below to estimate cardiovascular risk.")
