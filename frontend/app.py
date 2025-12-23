@@ -5,16 +5,10 @@ import requests
 
 st.set_page_config(page_title="Cardio Risk Predoctor", page_icon="🫀")
 
-API_URL = "API_URL = "https://cardio-risk-prediction-1.onrender.com/predict"
-
+API_URL = "https://cardio-risk-prediction-1.onrender.com/predict"
 
 st.title("Cardio Disease Prediction")
 st.write("Enter the details below to estimate cardiovascular risk.")
-
-# st.sidebar.header("Model Settings")
-# model_name_ui = st.sidebar.selectbox("Choose model", ["Logistic Regression", "Random Forest"])
-# model_param = "lr" if model_name_ui == "Logistic Regression" else "rf"
-# st.sidebar.write(f"Using: *{model_name_ui}*")
 
 st.header("Patient Details")
 
@@ -66,11 +60,7 @@ if submitted:
     }
 
     try:
-        response = requests.post(
-            API_URL,
-            json=payload,
-            # params={"model_name": model_param}
-        )
+        response = requests.post(API_URL, json=payload)
         response.raise_for_status()
         result = response.json()
 
@@ -84,7 +74,6 @@ if submitted:
         else:
             st.success("Low risk of cardiovascular disease")
 
-        # st.write(f"Model used: *{result.get('model_used', model_name_ui)}*")
         st.write(f"Estimated risk probability: *{proba:.2f}*")
 
         bmi = weight / ((height / 100) ** 2)
