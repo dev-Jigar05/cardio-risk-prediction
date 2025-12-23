@@ -10,8 +10,8 @@ app = FastAPI(title="Cardio Risk API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://cardio-risk-prediction.streamlit.app"
-        "localhost:3000"
+        "https://cardio-risk-prediction.streamlit.app",
+        "http://localhost:3000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -20,7 +20,12 @@ app.add_middleware(
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, "cardio_model_knn.pkl")
-knn_model = joblib.load(model_path)
+
+try:
+    knn_model = joblib.load(model_path)
+except Exception as e:
+    print("Model load failed:", e)
+    knn_model = None
 
 
 class CardioInput(BaseModel):
@@ -44,6 +49,9 @@ def health():
 
 @app.post("/predict")
 def predict_risk(data: CardioInput):
+    if knn_model is None:
+        return {"error": "Model not loaded"}
+
     d = data.dict()
     bmi = d["weight"] / ((d["height"] / 100) ** 2)
 
